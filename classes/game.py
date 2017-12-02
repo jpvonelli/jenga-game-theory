@@ -15,7 +15,6 @@ class Game:
             self.diff = 1
 
         self.t = Tower(num_layers)
-        self.previous_play = []
 
     def player_moves(self, layer, block):
         self.t.remove_block(layer, block)
@@ -28,7 +27,7 @@ class Game:
 
 
         if self.__is_optimal_used():
-            if self.previous_play == []:
+            if self.t.last_move == []:
                 if len(self.t.get_layers()) % 2 == 0:
                     comp_layer, comp_block = self.__compute_random_move()
                     self.t.remove_block(comp_layer, comp_block)
@@ -44,14 +43,10 @@ class Game:
             comp_layer, comp_block = self.__compute_random_move()
             self.t.remove_block(comp_layer, comp_block)
 
-        # Last!
-        self.previous_play = self.t.last_move
-        return
-
     def __compute_random_move(self):
         while True:
-            random_layer = random.randint(0, len(self.t.get_layers()))
-            random_block = random.randint(0, 3)
+            random_layer = random.randint(0, len(self.t.get_layers()) - 1)
+            random_block = random.randint(0, 2)
             if self.t.is_valid(random_layer, random_block):
                 break
 
