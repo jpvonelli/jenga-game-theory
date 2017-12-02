@@ -1,6 +1,6 @@
 class Tower:
 
-    def init(self, num_layers):
+    def __init__(self, num_layers):
         self.tower = [[0,1,2] for x in range(num_layers)]
         self.last_move = [0,0]
 
