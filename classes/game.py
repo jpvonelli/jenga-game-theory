@@ -3,7 +3,7 @@ from random import randint
 
 class Game:
 
-    def __init__(self, difficulty, num_layers):
+    def init(self, difficulty, num_layers):
 
         if difficulty == "wimpy":
             self.diff = .25
@@ -17,10 +17,8 @@ class Game:
         self.t = Tower(num_layers)
         self.previous_play = []
 
-    def player_moves(self, block, layer):
-        if self.t.remove_block(block, layer):
-            return True
-        return False
+    def player_moves(self, layer, block):
+        self.t.remove_block(layer, block)
 
     def computer_moves(self):
         # If diff == hard, then always make optimal rule
@@ -28,14 +26,13 @@ class Game:
         # If odds are not in computer's favor, choose random deletion
         # Use Tower's last move for symmetry strategy
 
-        if self.previous_play is []:
+        if self.previous_play == []:
             if len(self.t.get_layers()) % 2 == 0:
                 comp_layer, comp_block = self.__compute_random_move()
                 self.t.remove_block(comp_layer, comp_block)
             else:
                 comp_layer = int(len(self.t.get_layers()) / 2)
-                comp_block = randint(0,2)
-                self.t.remove_block(comp_layer, comp_block)
+                self.t.remove_block(comp_layer, 1)
 
         else:
             comp_layer, comp_block = self.__compute_optimal_move(self.t.last_move[0], self.t.last_move[1])
@@ -63,7 +60,7 @@ class Game:
         # player moves to middle block (odd number of layers), but chooses 0 or 2
         # must choose 0 or 2
 
-        symmetrical_layer = ((len() - 1) - last_layer)
+        symmetrical_layer = ((len(self.t.get_layers()) - 1) - last_layer)
         if self.t.is_valid(symmetrical_layer, last_block):
             return symmetrical_layer, last_block
         else:
@@ -81,6 +78,5 @@ class Game:
                 return self.__compute_random_move()
 
 
-    def __get_tower(self):
+    def get_tower(self):
         return self.t
-

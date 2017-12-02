@@ -1,6 +1,6 @@
 class Tower:
 
-    def __init__(self, num_layers):
+    def init(self, num_layers):
         self.tower = [[0,1,2] for x in range(num_layers)]
         self.last_move = [0,0]
 
@@ -24,11 +24,9 @@ class Tower:
         return False
 
     def remove_block(self, layer_num, block_num):
-        if not self.is_valid(layer_num, block_num):
-            return False
         self.tower[layer_num].remove(block_num)
         self.last_move = [layer_num, block_num]
-        return True
+
 
     def is_finished(self):
         for layer in self.tower:
